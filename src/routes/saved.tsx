@@ -20,9 +20,15 @@ function SavedPage() {
     <div className="space-y-6">
       <h1 className="font-display font-bold text-2xl">Saved</h1>
       {posts.length === 0 ? (
-        <div className="glass rounded-2xl p-10 text-center text-muted-foreground">Nothing saved yet.</div>
+        <div className="glass rounded-2xl p-10 text-center text-muted-foreground">
+          Nothing saved yet.
+        </div>
       ) : (
-        <div className="space-y-4">{posts.map((p) => <PostCard key={p.id} post={p} />)}</div>
+        <div className="space-y-4">
+          {posts.map((p) => (
+            <PostCard key={p.id} post={p} />
+          ))}
+        </div>
       )}
     </div>
   );

@@ -90,7 +90,8 @@
   * {
     border-color: var(--color-border);
   }
-  html, body {
+  html,
+  body {
     overflow-x: hidden;
     max-width: 100vw;
   }
@@ -101,12 +102,23 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
     background-image:
-      radial-gradient(circle at 15% -10%, color-mix(in oklab, var(--color-primary) 12%, transparent), transparent 45%),
-      radial-gradient(circle at 95% 10%, color-mix(in oklab, var(--color-accent) 12%, transparent), transparent 50%);
+      radial-gradient(
+        circle at 15% -10%,
+        color-mix(in oklab, var(--color-primary) 12%, transparent),
+        transparent 45%
+      ),
+      radial-gradient(
+        circle at 95% 10%,
+        color-mix(in oklab, var(--color-accent) 12%, transparent),
+        transparent 50%
+      );
     background-attachment: fixed;
     min-height: 100vh;
   }
-  h1, h2, h3, h4 {
+  h1,
+  h2,
+  h3,
+  h4 {
     font-family: var(--font-display);
     letter-spacing: -0.02em;
   }
@@ -120,34 +132,70 @@
     -webkit-backdrop-filter: blur(16px) saturate(160%);
   }
   .glow-primary {
-    box-shadow: 0 0 0 1px color-mix(in oklab, var(--color-primary) 30%, transparent),
-                0 8px 40px -8px color-mix(in oklab, var(--color-primary) 40%, transparent);
+    box-shadow:
+      0 0 0 1px color-mix(in oklab, var(--color-primary) 30%, transparent),
+      0 8px 40px -8px color-mix(in oklab, var(--color-primary) 40%, transparent);
   }
   .text-gradient {
-    background: linear-gradient(135deg, var(--color-foreground), color-mix(in oklab, var(--color-primary) 70%, var(--color-foreground)));
+    background: linear-gradient(
+      135deg,
+      var(--color-foreground),
+      color-mix(in oklab, var(--color-primary) 70%, var(--color-foreground))
+    );
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
   }
-  .scrollbar-thin::-webkit-scrollbar { width: 6px; height: 6px; }
-  .scrollbar-thin::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 999px; }
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 999px;
+  }
 }
 
 /* Tiptap editor + rendered rich content */
 .prose-editor p,
-.prose-content p { margin: 0 0 0.6rem; line-height: 1.6; }
+.prose-content p {
+  margin: 0 0 0.6rem;
+  line-height: 1.6;
+}
 .prose-editor p:last-child,
-.prose-content p:last-child { margin-bottom: 0; }
+.prose-content p:last-child {
+  margin-bottom: 0;
+}
 .prose-editor h2,
-.prose-content h2 { font-family: var(--font-display); font-size: 1.35rem; font-weight: 700; margin: 1rem 0 0.5rem; }
+.prose-content h2 {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 1rem 0 0.5rem;
+}
 .prose-editor h3,
-.prose-content h3 { font-family: var(--font-display); font-size: 1.1rem; font-weight: 600; margin: 0.8rem 0 0.4rem; }
+.prose-content h3 {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0.8rem 0 0.4rem;
+}
 .prose-editor ul,
-.prose-content ul { list-style: disc; padding-left: 1.25rem; margin: 0 0 0.6rem; }
+.prose-content ul {
+  list-style: disc;
+  padding-left: 1.25rem;
+  margin: 0 0 0.6rem;
+}
 .prose-editor ol,
-.prose-content ol { list-style: decimal; padding-left: 1.5rem; margin: 0 0 0.6rem; }
+.prose-content ol {
+  list-style: decimal;
+  padding-left: 1.5rem;
+  margin: 0 0 0.6rem;
+}
 .prose-editor li,
-.prose-content li { margin: 0.15rem 0; }
+.prose-content li {
+  margin: 0.15rem 0;
+}
 .prose-editor blockquote,
 .prose-content blockquote {
   border-left: 3px solid var(--color-primary);
@@ -172,11 +220,22 @@
   margin: 0.5rem 0 0.6rem;
 }
 .prose-editor pre code,
-.prose-content pre code { background: transparent; padding: 0; }
+.prose-content pre code {
+  background: transparent;
+  padding: 0;
+}
 .prose-editor a,
-.prose-content a { color: var(--color-primary); text-decoration: underline; word-break: break-word; }
-.prose-editor strong { font-weight: 700; }
-.prose-editor em { font-style: italic; }
+.prose-content a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  word-break: break-word;
+}
+.prose-editor strong {
+  font-weight: 700;
+}
+.prose-editor em {
+  font-style: italic;
+}
 .prose-editor p.is-editor-empty:first-child::before {
   color: var(--color-muted-foreground);
   content: attr(data-placeholder);
@@ -184,4 +243,6 @@
   height: 0;
   pointer-events: none;
 }
-.prose-content { word-break: break-word; }
+.prose-content {
+  word-break: break-word;
+}

@@ -7,7 +7,12 @@ import { SortTabs } from "@/components/orbit/SortTabs";
 import { Sparkles } from "lucide-react";
 
 export const Route = createFileRoute("/")({
-  head: () => ({ meta: [{ title: "Orbit — communities done right" }, { name: "description", content: "A premium community platform for builders and thinkers." }] }),
+  head: () => ({
+    meta: [
+      { title: "Orbit — communities done right" },
+      { name: "description", content: "A premium community platform for builders and thinkers." },
+    ],
+  }),
   component: Index,
 });
 
@@ -37,11 +42,20 @@ function Index() {
           <div className="inline-flex items-center gap-1.5 px-3 h-7 rounded-full bg-primary/15 text-primary text-xs font-medium mb-3">
             <Sparkles className="h-3 w-3" /> Welcome to your feed
           </div>
-          <h1 className="text-3xl sm:text-4xl font-bold text-gradient max-w-2xl">Where curious people gather around ideas worth keeping.</h1>
-          <p className="text-muted-foreground mt-2 max-w-xl">Join communities, post things you care about, and have actual conversations.</p>
+          <h1 className="text-3xl sm:text-4xl font-bold text-gradient max-w-2xl">
+            Where curious people gather around ideas worth keeping.
+          </h1>
+          <p className="text-muted-foreground mt-2 max-w-xl">
+            Join communities, post things you care about, and have actual conversations.
+          </p>
           <div className="mt-5 flex flex-wrap gap-2">
             {communities.slice(0, 4).map((c) => (
-              <Link key={c.id} to="/c/$name" params={{ name: c.name }} className="px-3 h-8 inline-flex items-center gap-2 rounded-full bg-secondary text-sm hover:bg-primary/15 transition">
+              <Link
+                key={c.id}
+                to="/c/$name"
+                params={{ name: c.name }}
+                className="px-3 h-8 inline-flex items-center gap-2 rounded-full bg-secondary text-sm hover:bg-primary/15 transition"
+              >
                 <span>{c.icon}</span> o/{c.name}
               </Link>
             ))}
@@ -55,7 +69,13 @@ function Index() {
           {me && (
             <div className="inline-flex p-1 rounded-lg bg-secondary/60 text-xs">
               {(["all", "following"] as const).map((k) => (
-                <button key={k} onClick={() => setFeed(k)} className={`px-2.5 h-7 rounded-md capitalize ${feed === k ? "bg-primary text-primary-foreground" : "text-muted-foreground"}`}>{k}</button>
+                <button
+                  key={k}
+                  onClick={() => setFeed(k)}
+                  className={`px-2.5 h-7 rounded-md capitalize ${feed === k ? "bg-primary text-primary-foreground" : "text-muted-foreground"}`}
+                >
+                  {k}
+                </button>
               ))}
             </div>
           )}
@@ -66,10 +86,14 @@ function Index() {
       <div className="space-y-4">
         {sorted.length === 0 && (
           <div className="glass rounded-2xl p-8 text-center text-muted-foreground">
-            {feed === "following" ? "Follow people to see their posts here." : "Nothing to show yet."}
+            {feed === "following"
+              ? "Follow people to see their posts here."
+              : "Nothing to show yet."}
           </div>
         )}
-        {sorted.map((p) => <PostCard key={p.id} post={p} />)}
+        {sorted.map((p) => (
+          <PostCard key={p.id} post={p} />
+        ))}
       </div>
     </div>
   );

@@ -18,10 +18,16 @@ export function MediaUploader({ mediaUrl, mediaType, onChange }: Props) {
 
   const onFile = (file: File) => {
     setError(null);
-    if (file.size > MAX_BYTES) { setError(`File too large (max ${(MAX_BYTES / 1024 / 1024).toFixed(0)}MB).`); return; }
+    if (file.size > MAX_BYTES) {
+      setError(`File too large (max ${(MAX_BYTES / 1024 / 1024).toFixed(0)}MB).`);
+      return;
+    }
     const isImg = file.type.startsWith("image/");
     const isVid = file.type.startsWith("video/");
-    if (!isImg && !isVid) { setError("Only image or video files are supported."); return; }
+    if (!isImg && !isVid) {
+      setError("Only image or video files are supported.");
+      return;
+    }
     const reader = new FileReader();
     reader.onload = () => {
       onChange({ mediaUrl: String(reader.result), mediaType: isImg ? "image" : "video" });
@@ -52,7 +58,9 @@ export function MediaUploader({ mediaUrl, mediaType, onChange }: Props) {
         <div className="flex flex-wrap gap-2">
           <button
             type="button"
-            onClick={() => { fileRef.current?.click(); }}
+            onClick={() => {
+              fileRef.current?.click();
+            }}
             className="flex-1 min-w-[140px] flex items-center justify-center gap-2 h-11 rounded-xl border border-dashed border-border bg-secondary/40 hover:bg-secondary text-sm font-medium"
           >
             <Upload className="h-4 w-4" /> Upload image or video
@@ -69,7 +77,11 @@ export function MediaUploader({ mediaUrl, mediaType, onChange }: Props) {
             type="file"
             accept="image/*,video/*"
             className="hidden"
-            onChange={(e) => { const f = e.target.files?.[0]; if (f) onFile(f); e.target.value = ""; }}
+            onChange={(e) => {
+              const f = e.target.files?.[0];
+              if (f) onFile(f);
+              e.target.value = "";
+            }}
           />
         </div>
       )}
@@ -99,8 +111,12 @@ export function MediaUploader({ mediaUrl, mediaType, onChange }: Props) {
 
       {error && <p className="text-xs text-destructive">{error}</p>}
       <p className="text-xs text-muted-foreground flex items-center gap-3">
-        <span className="inline-flex items-center gap-1"><ImageIcon className="h-3 w-3" /> JPG/PNG/GIF/WEBP</span>
-        <span className="inline-flex items-center gap-1"><Video className="h-3 w-3" /> MP4/WEBM</span>
+        <span className="inline-flex items-center gap-1">
+          <ImageIcon className="h-3 w-3" /> JPG/PNG/GIF/WEBP
+        </span>
+        <span className="inline-flex items-center gap-1">
+          <Video className="h-3 w-3" /> MP4/WEBM
+        </span>
         <span>· up to 8MB</span>
       </p>
     </div>

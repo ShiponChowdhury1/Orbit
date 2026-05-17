@@ -1,7 +1,19 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useAppStore } from "@/store/app-store";
-import { Search, Sun, Moon, Plus, Bell, Compass, Home, Bookmark, Shield, Users, X } from "lucide-react";
+import {
+  Search,
+  Sun,
+  Moon,
+  Plus,
+  Bell,
+  Compass,
+  Home,
+  Bookmark,
+  Shield,
+  Users,
+  X,
+} from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { NotificationsPanel } from "./NotificationsPanel";
 import { UserSwitcher } from "./UserSwitcher";
@@ -73,7 +85,9 @@ export function AppShell() {
         <header className="sticky top-0 z-40 glass">
           <div className="mx-auto max-w-[1400px] px-3 sm:px-4 h-16 flex items-center justify-between">
             <Link to="/" className="flex items-center gap-2 group shrink-0">
-              <div className="h-9 w-9 rounded-xl bg-primary text-primary-foreground grid place-items-center font-bold font-display glow-primary">O</div>
+              <div className="h-9 w-9 rounded-xl bg-primary text-primary-foreground grid place-items-center font-bold font-display glow-primary">
+                O
+              </div>
               <span className="font-display font-bold text-lg tracking-tight">orbit</span>
             </Link>
             <button
@@ -86,7 +100,12 @@ export function AppShell() {
           </div>
         </header>
         <main className="flex-1 mx-auto w-full max-w-[1400px] px-3 sm:px-4 py-10">
-          <motion.div key={route} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25 }}>
+          <motion.div
+            key={route}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.25 }}
+          >
             <Outlet />
           </motion.div>
         </main>
@@ -100,8 +119,12 @@ export function AppShell() {
       <header className="sticky top-0 z-40 glass">
         <div className="mx-auto max-w-[1400px] px-3 sm:px-4 h-16 flex items-center justify-between gap-2 sm:gap-4">
           <Link to="/" className="flex items-center gap-2 group shrink-0">
-            <div className="h-9 w-9 rounded-xl bg-primary text-primary-foreground grid place-items-center font-bold font-display glow-primary">O</div>
-            <span className="font-display font-bold text-lg tracking-tight hidden sm:block">orbit</span>
+            <div className="h-9 w-9 rounded-xl bg-primary text-primary-foreground grid place-items-center font-bold font-display glow-primary">
+              O
+            </div>
+            <span className="font-display font-bold text-lg tracking-tight hidden sm:block">
+              orbit
+            </span>
           </Link>
 
           {/* Desktop centered search */}
@@ -231,11 +254,16 @@ export function AppShell() {
                     params={{ name: c.name }}
                     className="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-secondary text-sm transition"
                   >
-                    <span className="h-7 w-7 grid place-items-center rounded-lg shrink-0" style={{ background: c.color + "33" }}>
+                    <span
+                      className="h-7 w-7 grid place-items-center rounded-lg shrink-0"
+                      style={{ background: c.color + "33" }}
+                    >
                       {c.icon}
                     </span>
                     <span className="font-medium truncate">o/{c.name}</span>
-                    <span className="ml-auto text-xs text-muted-foreground shrink-0">{c.members.length}</span>
+                    <span className="ml-auto text-xs text-muted-foreground shrink-0">
+                      {c.members.length}
+                    </span>
                   </Link>
                 ))}
               </div>
@@ -248,7 +276,11 @@ export function AppShell() {
                 className="glass rounded-2xl p-4 flex items-center gap-3 hover:bg-secondary/40 transition"
               >
                 <span className="h-10 w-10 grid place-items-center rounded-xl bg-secondary text-xl shrink-0 overflow-hidden">
-                  {me.avatar?.startsWith("data:") ? <img src={me.avatar} alt="" className="h-full w-full object-cover" /> : me.avatar}
+                  {me.avatar?.startsWith("data:") ? (
+                    <img src={me.avatar} alt="" className="h-full w-full object-cover" />
+                  ) : (
+                    me.avatar
+                  )}
                 </span>
                 <div className="min-w-0">
                   <div className="font-semibold text-sm truncate">@{me.username}</div>
@@ -260,8 +292,18 @@ export function AppShell() {
                 <div className="text-sm font-semibold">Welcome to Orbit</div>
                 <p className="text-xs text-muted-foreground">Sign in to post, comment, and vote.</p>
                 <div className="flex gap-2">
-                  <Link to="/login" className="flex-1 h-9 grid place-items-center rounded-xl bg-primary text-primary-foreground text-sm font-medium">Sign in</Link>
-                  <Link to="/signup" className="flex-1 h-9 grid place-items-center rounded-xl bg-secondary text-sm font-medium">Sign up</Link>
+                  <Link
+                    to="/login"
+                    className="flex-1 h-9 grid place-items-center rounded-xl bg-primary text-primary-foreground text-sm font-medium"
+                  >
+                    Sign in
+                  </Link>
+                  <Link
+                    to="/signup"
+                    className="flex-1 h-9 grid place-items-center rounded-xl bg-secondary text-sm font-medium"
+                  >
+                    Sign up
+                  </Link>
                 </div>
               </div>
             )}
@@ -269,7 +311,12 @@ export function AppShell() {
         </aside>
 
         <main className="min-w-0">
-          <motion.div key={route} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25 }}>
+          <motion.div
+            key={route}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.25 }}
+          >
             <Outlet />
           </motion.div>
         </main>

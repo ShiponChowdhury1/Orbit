@@ -27,5 +27,7 @@ export function randomToken(): string {
   const arr = new Uint8Array(16);
   if (typeof crypto !== "undefined" && crypto.getRandomValues) crypto.getRandomValues(arr);
   else for (let i = 0; i < arr.length; i++) arr[i] = Math.floor(Math.random() * 256);
-  return Array.from(arr).map((b) => b.toString(16).padStart(2, "0")).join("");
+  return Array.from(arr)
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
 }

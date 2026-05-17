@@ -20,7 +20,11 @@ function SettingsLayout() {
       <h1 className="font-display font-bold text-2xl">Settings</h1>
       <div className="inline-flex p-1 rounded-xl glass">
         {tabs.map((t) => (
-          <Link key={t.to} to={t.to} className={`px-4 h-9 grid place-items-center rounded-lg text-sm font-medium ${path === t.to ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}>
+          <Link
+            key={t.to}
+            to={t.to}
+            className={`px-4 h-9 grid place-items-center rounded-lg text-sm font-medium ${path === t.to ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}
+          >
             {t.label}
           </Link>
         ))}

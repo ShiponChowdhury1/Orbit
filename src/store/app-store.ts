@@ -1,6 +1,18 @@
 import { create } from "zustand";
 import type {
-  Comment, Community, CommunityRule, Notification, Post, PostFlair, Report, ResetToken, SavedRef, User, Vote, VoteValue, MediaType,
+  Comment,
+  Community,
+  CommunityRule,
+  Notification,
+  Post,
+  PostFlair,
+  Report,
+  ResetToken,
+  SavedRef,
+  User,
+  Vote,
+  VoteValue,
+  MediaType,
 } from "@/lib/types";
 import { uid } from "@/lib/id";
 import { seedData } from "@/lib/seed";
@@ -25,30 +37,64 @@ interface AppState {
   toggleTheme: () => void;
 
   // auth
-  signup: (data: { email: string; username: string; password: string; avatar?: string; bio?: string }) =>
-    { ok: true; user: User } | { ok: false; error: string };
-  loginWithEmail: (email: string, password: string) =>
-    { ok: true; user: User } | { ok: false; error: string };
+  signup: (data: {
+    email: string;
+    username: string;
+    password: string;
+    avatar?: string;
+    bio?: string;
+  }) => { ok: true; user: User } | { ok: false; error: string };
+  loginWithEmail: (
+    email: string,
+    password: string,
+  ) => { ok: true; user: User } | { ok: false; error: string };
   logout: () => void;
-  requestPasswordReset: (email: string) => { ok: true; token: string } | { ok: false; error: string };
-  resetPassword: (token: string, newPassword: string) => { ok: true } | { ok: false; error: string };
+  requestPasswordReset: (
+    email: string,
+  ) => { ok: true; token: string } | { ok: false; error: string };
+  resetPassword: (
+    token: string,
+    newPassword: string,
+  ) => { ok: true } | { ok: false; error: string };
   changePassword: (current: string, next: string) => { ok: true } | { ok: false; error: string };
-  updateProfile: (patch: { username?: string; bio?: string; avatar?: string }) =>
-    { ok: true; user: User } | { ok: false; error: string };
+  updateProfile: (patch: {
+    username?: string;
+    bio?: string;
+    avatar?: string;
+  }) => { ok: true; user: User } | { ok: false; error: string };
 
   // legacy quick switch (kept for dev)
   switchUser: (userId: string) => void;
 
   // communities
-  createCommunity: (data: Omit<Community, "id" | "createdAt" | "members" | "ownerId"> & { ownerId?: string }) => Community;
+  createCommunity: (
+    data: Omit<Community, "id" | "createdAt" | "members" | "ownerId"> & { ownerId?: string },
+  ) => Community;
   toggleJoin: (communityId: string) => void;
   addCommunityRule: (communityId: string, rule: Omit<CommunityRule, "id">) => void;
   removeCommunityRule: (communityId: string, ruleId: string) => void;
-  updateCommunity: (id: string, patch: Partial<Pick<Community, "title" | "description" | "icon" | "color" | "nsfw">>) => void;
+  updateCommunity: (
+    id: string,
+    patch: Partial<Pick<Community, "title" | "description" | "icon" | "color" | "nsfw">>,
+  ) => void;
 
   // posts
-  createPost: (data: { communityId: string; title: string; body: string; mediaUrl?: string; mediaType?: MediaType; nsfw?: boolean; spoiler?: boolean; flair?: PostFlair }) => Post | null;
-  updatePost: (id: string, patch: Partial<Pick<Post, "title" | "body" | "mediaUrl" | "mediaType" | "nsfw" | "spoiler" | "flair">>) => void;
+  createPost: (data: {
+    communityId: string;
+    title: string;
+    body: string;
+    mediaUrl?: string;
+    mediaType?: MediaType;
+    nsfw?: boolean;
+    spoiler?: boolean;
+    flair?: PostFlair;
+  }) => Post | null;
+  updatePost: (
+    id: string,
+    patch: Partial<
+      Pick<Post, "title" | "body" | "mediaUrl" | "mediaType" | "nsfw" | "spoiler" | "flair">
+    >,
+  ) => void;
   deletePost: (id: string) => void;
   toggleSave: (postId: string) => void;
   togglePostLock: (postId: string) => void;
@@ -67,7 +113,10 @@ interface AppState {
   vote: (target: "post" | "comment", targetId: string, value: VoteValue) => void;
 
   // notifications
-  pushNotification: (userId: string, n: Omit<Notification, "id" | "userId" | "createdAt" | "read">) => void;
+  pushNotification: (
+    userId: string,
+    n: Omit<Notification, "id" | "userId" | "createdAt" | "read">,
+  ) => void;
   markAllRead: () => void;
 
   // moderation
@@ -95,8 +144,15 @@ export const useAppStore = create<AppState>()((set, get) => ({
   resetSeed: () => {
     const s = seedData();
     set({
-      users: s.users, communities: s.communities, posts: s.posts,
-      comments: s.comments, votes: s.votes, notifications: [], saved: [], reports: [], resetTokens: [],
+      users: s.users,
+      communities: s.communities,
+      posts: s.posts,
+      comments: s.comments,
+      votes: s.votes,
+      notifications: [],
+      saved: [],
+      reports: [],
+      resetTokens: [],
       currentUserId: null,
     });
   },
@@ -107,11 +163,14 @@ export const useAppStore = create<AppState>()((set, get) => ({
     const e = email.trim().toLowerCase();
     const u = username.trim();
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)) return { ok: false, error: "Invalid email." };
-    if (!/^[a-zA-Z0-9_]{3,20}$/.test(u)) return { ok: false, error: "Username must be 3–20 chars (letters, numbers, _)." };
+    if (!/^[a-zA-Z0-9_]{3,20}$/.test(u))
+      return { ok: false, error: "Username must be 3–20 chars (letters, numbers, _)." };
     if (password.length < 6) return { ok: false, error: "Password must be at least 6 characters." };
     const state = get();
-    if (state.users.some((x) => x.email?.toLowerCase() === e)) return { ok: false, error: "Email already in use." };
-    if (state.users.some((x) => x.username.toLowerCase() === u.toLowerCase())) return { ok: false, error: "Username taken." };
+    if (state.users.some((x) => x.email?.toLowerCase() === e))
+      return { ok: false, error: "Email already in use." };
+    if (state.users.some((x) => x.username.toLowerCase() === u.toLowerCase()))
+      return { ok: false, error: "Username taken." };
     const user: User = {
       id: uid("u_"),
       username: u,
@@ -128,9 +187,11 @@ export const useAppStore = create<AppState>()((set, get) => ({
   loginWithEmail: (email, password) => {
     const e = email.trim().toLowerCase();
     const user = get().users.find((x) => x.email?.toLowerCase() === e);
-    if (!user || !user.passwordHash) return { ok: false, error: "No account found for this email." };
+    if (!user || !user.passwordHash)
+      return { ok: false, error: "No account found for this email." };
     if (user.banned) return { ok: false, error: "This account is banned." };
-    if (!verifyPassword(password, user.passwordHash)) return { ok: false, error: "Incorrect password." };
+    if (!verifyPassword(password, user.passwordHash))
+      return { ok: false, error: "Incorrect password." };
     set({ currentUserId: user.id });
     return { ok: true, user };
   },
@@ -148,12 +209,15 @@ export const useAppStore = create<AppState>()((set, get) => ({
   },
 
   resetPassword: (token, newPassword) => {
-    if (newPassword.length < 6) return { ok: false, error: "Password must be at least 6 characters." };
+    if (newPassword.length < 6)
+      return { ok: false, error: "Password must be at least 6 characters." };
     const rt = get().resetTokens.find((t) => t.token === token);
     if (!rt) return { ok: false, error: "Invalid token." };
     if (rt.expiresAt < Date.now()) return { ok: false, error: "Token expired." };
     set((s) => ({
-      users: s.users.map((u) => (u.id === rt.userId ? { ...u, passwordHash: hashPassword(newPassword) } : u)),
+      users: s.users.map((u) =>
+        u.id === rt.userId ? { ...u, passwordHash: hashPassword(newPassword) } : u,
+      ),
       resetTokens: s.resetTokens.filter((t) => t.token !== token),
     }));
     return { ok: true };
@@ -163,10 +227,13 @@ export const useAppStore = create<AppState>()((set, get) => ({
     const me = get().currentUserId;
     const user = get().users.find((u) => u.id === me);
     if (!user || !user.passwordHash) return { ok: false, error: "Not signed in." };
-    if (!verifyPassword(current, user.passwordHash)) return { ok: false, error: "Current password is incorrect." };
+    if (!verifyPassword(current, user.passwordHash))
+      return { ok: false, error: "Current password is incorrect." };
     if (next.length < 6) return { ok: false, error: "New password must be at least 6 characters." };
     set((s) => ({
-      users: s.users.map((u) => (u.id === user.id ? { ...u, passwordHash: hashPassword(next) } : u)),
+      users: s.users.map((u) =>
+        u.id === user.id ? { ...u, passwordHash: hashPassword(next) } : u,
+      ),
     }));
     return { ok: true };
   },
@@ -216,7 +283,12 @@ export const useAppStore = create<AppState>()((set, get) => ({
     set((s) => ({
       communities: s.communities.map((c) =>
         c.id === communityId
-          ? { ...c, members: c.members.includes(me) ? c.members.filter((u) => u !== me) : [...c.members, me] }
+          ? {
+              ...c,
+              members: c.members.includes(me)
+                ? c.members.filter((u) => u !== me)
+                : [...c.members, me],
+            }
           : c,
       ),
     }));
@@ -224,7 +296,9 @@ export const useAppStore = create<AppState>()((set, get) => ({
   addCommunityRule: (communityId, rule) =>
     set((s) => ({
       communities: s.communities.map((c) =>
-        c.id === communityId ? { ...c, rules: [...(c.rules ?? []), { id: uid("rl_"), ...rule }] } : c,
+        c.id === communityId
+          ? { ...c, rules: [...(c.rules ?? []), { id: uid("rl_"), ...rule }] }
+          : c,
       ),
     })),
   removeCommunityRule: (communityId, ruleId) =>
@@ -240,29 +314,52 @@ export const useAppStore = create<AppState>()((set, get) => ({
     const me = get().currentUserId;
     if (!me) return null;
     const p: Post = {
-      id: uid("p_"), communityId, authorId: me, title, body,
-      mediaUrl, mediaType, nsfw, spoiler, flair,
-      createdAt: Date.now(), updatedAt: Date.now(),
+      id: uid("p_"),
+      communityId,
+      authorId: me,
+      title,
+      body,
+      mediaUrl,
+      mediaType,
+      nsfw,
+      spoiler,
+      flair,
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
     };
     set((s) => ({ posts: [p, ...s.posts] }));
     return p;
   },
   updatePost: (id, patch) =>
-    set((s) => ({ posts: s.posts.map((p) => (p.id === id ? { ...p, ...patch, updatedAt: Date.now() } : p)) })),
+    set((s) => ({
+      posts: s.posts.map((p) => (p.id === id ? { ...p, ...patch, updatedAt: Date.now() } : p)),
+    })),
   deletePost: (id) =>
-    set((s) => ({ posts: s.posts.map((p) => (p.id === id ? { ...p, deleted: true, body: "", title: "[deleted]", mediaUrl: undefined } : p)) })),
+    set((s) => ({
+      posts: s.posts.map((p) =>
+        p.id === id
+          ? { ...p, deleted: true, body: "", title: "[deleted]", mediaUrl: undefined }
+          : p,
+      ),
+    })),
   toggleSave: (postId) => {
     const me = get().currentUserId;
     if (!me) return;
     set((s) => {
       const exists = s.saved.find((x) => x.userId === me && x.postId === postId);
-      return { saved: exists ? s.saved.filter((x) => x !== exists) : [...s.saved, { userId: me, postId }] };
+      return {
+        saved: exists ? s.saved.filter((x) => x !== exists) : [...s.saved, { userId: me, postId }],
+      };
     });
   },
   togglePostLock: (postId) =>
-    set((s) => ({ posts: s.posts.map((p) => (p.id === postId ? { ...p, locked: !p.locked } : p)) })),
+    set((s) => ({
+      posts: s.posts.map((p) => (p.id === postId ? { ...p, locked: !p.locked } : p)),
+    })),
   togglePostPin: (postId) =>
-    set((s) => ({ posts: s.posts.map((p) => (p.id === postId ? { ...p, pinned: !p.pinned } : p)) })),
+    set((s) => ({
+      posts: s.posts.map((p) => (p.id === postId ? { ...p, pinned: !p.pinned } : p)),
+    })),
   toggleHidePost: (postId) => {
     const me = get().currentUserId;
     if (!me) return;
@@ -270,7 +367,12 @@ export const useAppStore = create<AppState>()((set, get) => ({
       users: s.users.map((u) => {
         if (u.id !== me) return u;
         const hidden = u.hiddenPosts ?? [];
-        return { ...u, hiddenPosts: hidden.includes(postId) ? hidden.filter((x) => x !== postId) : [...hidden, postId] };
+        return {
+          ...u,
+          hiddenPosts: hidden.includes(postId)
+            ? hidden.filter((x) => x !== postId)
+            : [...hidden, postId],
+        };
       }),
     }));
   },
@@ -282,7 +384,10 @@ export const useAppStore = create<AppState>()((set, get) => ({
       users: s.users.map((u) => {
         if (u.id !== me) return u;
         const f = u.following ?? [];
-        return { ...u, following: f.includes(userId) ? f.filter((x) => x !== userId) : [...f, userId] };
+        return {
+          ...u,
+          following: f.includes(userId) ? f.filter((x) => x !== userId) : [...f, userId],
+        };
       }),
     }));
   },
@@ -290,18 +395,36 @@ export const useAppStore = create<AppState>()((set, get) => ({
   addComment: (postId, body, parentId = null) => {
     const me = get().currentUserId;
     if (!me) return null;
-    const c: Comment = { id: uid("cm_"), postId, parentId, authorId: me, body, createdAt: Date.now(), updatedAt: Date.now() };
+    const c: Comment = {
+      id: uid("cm_"),
+      postId,
+      parentId,
+      authorId: me,
+      body,
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+    };
     set((s) => ({ comments: [...s.comments, c] }));
     const post = get().posts.find((p) => p.id === postId);
     if (post && post.authorId !== me) {
-      get().pushNotification(post.authorId, { kind: "comment", message: `New reply on "${post.title}"`, link: `/post/${post.id}` });
+      get().pushNotification(post.authorId, {
+        kind: "comment",
+        message: `New reply on "${post.title}"`,
+        link: `/post/${post.id}`,
+      });
     }
     return c;
   },
   updateComment: (id, body) =>
-    set((s) => ({ comments: s.comments.map((c) => (c.id === id ? { ...c, body, updatedAt: Date.now() } : c)) })),
+    set((s) => ({
+      comments: s.comments.map((c) => (c.id === id ? { ...c, body, updatedAt: Date.now() } : c)),
+    })),
   deleteComment: (id) =>
-    set((s) => ({ comments: s.comments.map((c) => (c.id === id ? { ...c, deleted: true, body: "[deleted]" } : c)) })),
+    set((s) => ({
+      comments: s.comments.map((c) =>
+        c.id === id ? { ...c, deleted: true, body: "[deleted]" } : c,
+      ),
+    })),
 
   vote: (target, targetId, value) => {
     const me = get().currentUserId;
@@ -318,10 +441,20 @@ export const useAppStore = create<AppState>()((set, get) => ({
     if (value === 1) {
       if (target === "post") {
         const p = get().posts.find((x) => x.id === targetId);
-        if (p && p.authorId !== me) get().pushNotification(p.authorId, { kind: "vote", message: `Your post got an upvote`, link: `/post/${p.id}` });
+        if (p && p.authorId !== me)
+          get().pushNotification(p.authorId, {
+            kind: "vote",
+            message: `Your post got an upvote`,
+            link: `/post/${p.id}`,
+          });
       } else {
         const c = get().comments.find((x) => x.id === targetId);
-        if (c && c.authorId !== me) get().pushNotification(c.authorId, { kind: "vote", message: `Your comment got an upvote`, link: `/post/${c.postId}` });
+        if (c && c.authorId !== me)
+          get().pushNotification(c.authorId, {
+            kind: "vote",
+            message: `Your comment got an upvote`,
+            link: `/post/${c.postId}`,
+          });
       }
     }
   },
@@ -336,26 +469,47 @@ export const useAppStore = create<AppState>()((set, get) => ({
   markAllRead: () => {
     const me = get().currentUserId;
     if (!me) return;
-    set((s) => ({ notifications: s.notifications.map((n) => (n.userId === me ? { ...n, read: true } : n)) }));
+    set((s) => ({
+      notifications: s.notifications.map((n) => (n.userId === me ? { ...n, read: true } : n)),
+    }));
   },
 
   reportItem: (target, targetId, reason) => {
     const me = get().currentUserId;
     if (!me) return;
     set((s) => ({
-      reports: [{ id: uid("r_"), reporterId: me, target, targetId, reason, createdAt: Date.now() }, ...s.reports],
-      posts: target === "post" ? s.posts.map((p) => (p.id === targetId ? { ...p, flaggedCount: (p.flaggedCount ?? 0) + 1 } : p)) : s.posts,
+      reports: [
+        { id: uid("r_"), reporterId: me, target, targetId, reason, createdAt: Date.now() },
+        ...s.reports,
+      ],
+      posts:
+        target === "post"
+          ? s.posts.map((p) =>
+              p.id === targetId ? { ...p, flaggedCount: (p.flaggedCount ?? 0) + 1 } : p,
+            )
+          : s.posts,
     }));
   },
   banUser: (userId) =>
-    set((s) => ({ users: s.users.map((u) => (u.id === userId ? { ...u, banned: !u.banned } : u)) })),
+    set((s) => ({
+      users: s.users.map((u) => (u.id === userId ? { ...u, banned: !u.banned } : u)),
+    })),
 }));
 
 // Manual localStorage sync (browser-only).
 const STORAGE_KEY = "orbit-app-v2";
 const PERSISTED_KEYS: (keyof AppState)[] = [
-  "currentUserId", "users", "communities", "posts", "comments", "votes",
-  "notifications", "saved", "reports", "resetTokens", "theme",
+  "currentUserId",
+  "users",
+  "communities",
+  "posts",
+  "comments",
+  "votes",
+  "notifications",
+  "saved",
+  "reports",
+  "resetTokens",
+  "theme",
 ];
 
 export function loadPersistedState() {
@@ -365,7 +519,8 @@ export function loadPersistedState() {
     if (raw) {
       const parsed = JSON.parse(raw);
       const patch: Partial<AppState> = {};
-      for (const k of PERSISTED_KEYS) if (k in parsed) (patch as Record<string, unknown>)[k] = parsed[k];
+      for (const k of PERSISTED_KEYS)
+        if (k in parsed) (patch as Record<string, unknown>)[k] = parsed[k];
       useAppStore.setState(patch);
     }
   } catch (e) {

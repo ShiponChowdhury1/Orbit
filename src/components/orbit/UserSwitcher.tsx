@@ -25,7 +25,7 @@ export function UserSwitcher({ open, onOpenChange }: Props) {
           {me?.avatar?.startsWith("data:") ? (
             <img src={me.avatar} alt="" className="h-full w-full object-cover" />
           ) : (
-            me?.avatar ?? "👤"
+            (me?.avatar ?? "👤")
           )}
         </span>
       </button>
@@ -41,41 +41,68 @@ export function UserSwitcher({ open, onOpenChange }: Props) {
               <>
                 <div className="flex items-center gap-3 px-3 py-2.5">
                   <span className="h-10 w-10 grid place-items-center rounded-xl bg-secondary text-xl overflow-hidden shrink-0">
-                    {me.avatar?.startsWith("data:") ? <img src={me.avatar} alt="" className="h-full w-full object-cover" /> : me.avatar}
+                    {me.avatar?.startsWith("data:") ? (
+                      <img src={me.avatar} alt="" className="h-full w-full object-cover" />
+                    ) : (
+                      me.avatar
+                    )}
                   </span>
                   <div className="min-w-0">
                     <div className="text-sm font-semibold truncate">@{me.username}</div>
-                    {me.email && <div className="text-xs text-muted-foreground truncate">{me.email}</div>}
+                    {me.email && (
+                      <div className="text-xs text-muted-foreground truncate">{me.email}</div>
+                    )}
                   </div>
                 </div>
                 <div className="border-t border-border my-1" />
-                <Link to="/u/$username" params={{ username: me.username }} onClick={close}
-                  className="w-full flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-secondary text-sm">
+                <Link
+                  to="/u/$username"
+                  params={{ username: me.username }}
+                  onClick={close}
+                  className="w-full flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-secondary text-sm"
+                >
                   <UserIcon className="h-4 w-4" /> Profile
                 </Link>
-                <Link to="/settings/profile" onClick={close}
-                  className="w-full flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-secondary text-sm">
+                <Link
+                  to="/settings/profile"
+                  onClick={close}
+                  className="w-full flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-secondary text-sm"
+                >
                   <Settings className="h-4 w-4" /> Edit profile
                 </Link>
-                <Link to="/settings/password" onClick={close}
-                  className="w-full flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-secondary text-sm">
+                <Link
+                  to="/settings/password"
+                  onClick={close}
+                  className="w-full flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-secondary text-sm"
+                >
                   <KeyRound className="h-4 w-4" /> Change password
                 </Link>
                 <div className="border-t border-border my-1" />
-                <button onClick={() => { logout(); close(); }}
-                  className="w-full flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-secondary text-sm text-muted-foreground">
+                <button
+                  onClick={() => {
+                    logout();
+                    close();
+                  }}
+                  className="w-full flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-secondary text-sm text-muted-foreground"
+                >
                   <LogOut className="h-4 w-4" /> Sign out
                 </button>
               </>
             ) : (
               <>
                 <div className="px-3 py-2 text-xs text-muted-foreground">You're not signed in.</div>
-                <Link to="/login" onClick={close}
-                  className="w-full flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-secondary text-sm font-medium">
+                <Link
+                  to="/login"
+                  onClick={close}
+                  className="w-full flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-secondary text-sm font-medium"
+                >
                   <LogIn className="h-4 w-4" /> Sign in
                 </Link>
-                <Link to="/signup" onClick={close}
-                  className="w-full flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-secondary text-sm">
+                <Link
+                  to="/signup"
+                  onClick={close}
+                  className="w-full flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-secondary text-sm"
+                >
                   Create account
                 </Link>
               </>

@@ -13,7 +13,11 @@ export function SortTabs({ value, onChange }: { value: SortKey; onChange: (k: So
       {items.map((it) => {
         const active = it.key === value;
         return (
-          <button key={it.key} onClick={() => onChange(it.key)} className={`px-3 h-8 rounded-lg text-sm font-medium flex items-center gap-1.5 transition ${active ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}>
+          <button
+            key={it.key}
+            onClick={() => onChange(it.key)}
+            className={`px-3 h-8 rounded-lg text-sm font-medium flex items-center gap-1.5 transition ${active ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}
+          >
             <it.icon className="h-3.5 w-3.5" /> {it.label}
           </button>
         );

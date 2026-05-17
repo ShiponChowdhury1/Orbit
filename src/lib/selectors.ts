@@ -6,7 +6,12 @@ export function scoreFor(votes: Vote[], target: "post" | "comment", id: string) 
   return s;
 }
 
-export function userVote(votes: Vote[], userId: string | null, target: "post" | "comment", id: string) {
+export function userVote(
+  votes: Vote[],
+  userId: string | null,
+  target: "post" | "comment",
+  id: string,
+) {
   if (!userId) return 0;
   const v = votes.find((x) => x.userId === userId && x.target === target && x.targetId === id);
   return v?.value ?? 0;
@@ -23,8 +28,14 @@ export type SortKey = "hot" | "new" | "top";
 export function sortPosts(posts: Post[], votes: Vote[], key: SortKey) {
   const arr = [...posts];
   if (key === "new") arr.sort((a, b) => b.createdAt - a.createdAt);
-  else if (key === "top") arr.sort((a, b) => scoreFor(votes, "post", b.id) - scoreFor(votes, "post", a.id));
-  else arr.sort((a, b) => hotScore(scoreFor(votes, "post", b.id), b.createdAt) - hotScore(scoreFor(votes, "post", a.id), a.createdAt));
+  else if (key === "top")
+    arr.sort((a, b) => scoreFor(votes, "post", b.id) - scoreFor(votes, "post", a.id));
+  else
+    arr.sort(
+      (a, b) =>
+        hotScore(scoreFor(votes, "post", b.id), b.createdAt) -
+        hotScore(scoreFor(votes, "post", a.id), a.createdAt),
+    );
   return arr;
 }
 
@@ -41,7 +52,12 @@ export interface CommentNode extends Comment {
 
 export type CommentSort = "best" | "new" | "old" | "top";
 
-export function buildCommentTree(comments: Comment[], postId: string, votes: Vote[] = [], sort: CommentSort = "best"): CommentNode[] {
+export function buildCommentTree(
+  comments: Comment[],
+  postId: string,
+  votes: Vote[] = [],
+  sort: CommentSort = "best",
+): CommentNode[] {
   const list = comments.filter((c) => c.postId === postId);
   const map = new Map<string, CommentNode>();
   list.forEach((c) => map.set(c.id, { ...c, children: [] }));
