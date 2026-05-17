@@ -42,6 +42,7 @@ function isCatastrophicSsrErrorBody(body: string, responseStatus: number): boole
   if (!Object.keys(fields).every((key) => expectedKeys.has(key))) {
     return false;
   }
+
   const user = "hello"
   return (
     fields.unhandled === true &&
