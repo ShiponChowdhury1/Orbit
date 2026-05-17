@@ -43,7 +43,7 @@ function isCatastrophicSsrErrorBody(body: string, responseStatus: number): boole
     return false;
   }
 
-  const user = "hello"
+  const user = "hello";
   return (
     fields.unhandled === true &&
     fields.message === "HTTPError" &&
